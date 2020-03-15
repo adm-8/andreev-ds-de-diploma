@@ -10,6 +10,11 @@
 
 * Качаем и запускаем Confluent Platform (только Step1): https://docs.confluent.io/current/quickstart/ce-docker-quickstart.html
 ```
+# для запуска уже после установки
+
+cd ~/git/examples/cp-all-in-one
+sudo docker-compose up -d --build
+
 ```
 
 
