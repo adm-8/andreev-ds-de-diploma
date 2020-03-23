@@ -8,10 +8,24 @@
 
 * Устанавливаем Docker Compose: https://docs.docker.com/compose/install/
 
-* Качаем и запускаем Confluent Platform (только Step1): https://docs.confluent.io/current/quickstart/ce-docker-quickstart.html
+* Качаем и запускаем Confluent Platform  https://docs.confluent.io/current/quickstart/cos-docker-quickstart.html#
+```
+mkdir ~/git
+
+cd git
+
+git clone https://github.com/confluentinc/examples
+cd examples
+git checkout 5.4.1-post
+
+cd cp-all-in-one-community/
+
+sudo docker-compose up -d --build
+```
+
+
 ```
 # для запуска уже после установки
-
 cd ~/git/examples/cp-all-in-one
 sudo docker-compose up -d --build
 

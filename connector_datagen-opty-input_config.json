@@ -1,0 +1,9 @@
+{
+  "name": "datagen-opty-input",
+  "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "kafka.topic": "opty-input-topic",
+  "max.interval": "100",
+  "iterations": "1000000000",
+  "quickstart": "opty-input-connector"
+}
