@@ -1,6 +1,12 @@
 '''
+spark-shell --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5
+spark-submit \
+--jars org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5 \
+D:\_git\andreev-ds-de-diploma\python\pyspark_consumer_test.py
 
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:2.4.5 D:\_git\andreev-ds-de-diploma\python\pyspark_consumer_test.py
+
+spark-submit --jars C:\Users\user\.ivy2\jars\org.apache.spark_spark-streaming-kafka-0-10_2.11-2.4.5.jar D:\_git\andreev-ds-de-diploma\python\pyspark_consumer_test.py
+
 
 '''
 
