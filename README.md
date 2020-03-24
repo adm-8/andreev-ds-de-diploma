@@ -1,8 +1,38 @@
 # Выпускная работа Андреева Д.С. по курсу Data Engineer - Otus - 11-2019
 
+## Постановка задачи:
+
+Общая схема процесса :
+
+![MainProcessSchema.png](https://raw.githubusercontent.com/adm-8/andreev-ds-de-diploma/master/images/MainProcessSchema.png) 
 
 
-## Подготовка Kafka на первом сервере с Ubuntu 16.04
+
+## Необходимые компоненты
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Решение
 * Устанавливаем JAVA: https://tecadmin.net/install-oracle-java-8-ubuntu-via-ppa/
 
 * Устанавливаем Spark
