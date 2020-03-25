@@ -11,3 +11,4 @@ def get_opty():
 
 for x in range(10000):
     print(get_opty())
+    
