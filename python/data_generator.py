@@ -6,6 +6,7 @@ salary = [112309, 89450, 96231, 75614, 157495, 189242, 210561, 137245]
 loan_ammount = range(192540, 2000000, 13852)
 preiod = range(12, 120, 12)
 
+
 def get_opty(with_result = True):
     
     # отношение ежемесячного платежа к ЗП для получения положительного решения 
@@ -23,8 +24,7 @@ def get_opty(with_result = True):
     ret = choice(regions) +","+ choice(job_titles) +","+  str(sal) +","+  str(la) +","+ str(per)
     
     # если помимо данных для запроса КЗ нужно вернуть и решение 
-    if with_result == True:
-        
+    if with_result == True:        
         # Если соотношение запрошенных денег к ЗП меньше порога, то даем положительный результат 
         if req_percent < true_percent:
             return ret + ',1'
@@ -36,6 +36,27 @@ def get_opty(with_result = True):
     else:
         return ret
 
-for x in range(10000):
-    print(get_opty())
+
+def make_csv_file(rec_cnt, with_result):
     
+    #project_path = 'D:\\_git\\andreev-ds-de-diploma\\'
+    file_path = ''
+    
+    header_str = 'REGION,JOB_TITLE,SALARY,LOAN_AMOUNT,PERIOD'
+    if with_result == True:
+        header_str = header_str + ",TARGET"
+        file_path = file_path + "train.csv"
+    else:
+        file_path = file_path + "request.csv"
+    
+    f = open(file_path, 'w+')
+    f.write(header_str)
+    
+    for x in range(rec_cnt):
+        print(get_opty(with_result))
+        
+    f.close()
+        
+    #print(header_str)
+    
+make_csv_file(100000, True)
