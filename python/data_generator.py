@@ -53,10 +53,11 @@ def make_csv_file(rec_cnt, with_result):
     f.write(header_str)
     
     for x in range(rec_cnt):
-        print(get_opty(with_result))
+        f.write("\r" + get_opty(with_result))
         
     f.close()
-        
+    print("File created")    
     #print(header_str)
     
 make_csv_file(100000, True)
+make_csv_file(100000, False)
