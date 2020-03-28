@@ -49,7 +49,7 @@ def make_csv_file(rec_cnt, with_result):
     else:
         file_path = os.path.join(file_path , "request.csv")
     
-    f = open(file_path, 'w+')
+    f = open(file_path, 'w+', encoding="utf-8")
     f.write(header_str)
     
     for x in range(rec_cnt):
