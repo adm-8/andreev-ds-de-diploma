@@ -1,4 +1,5 @@
 from random import choice
+import os 
 
 regions = ['Москва','Питер','Казань']
 job_titles = ['Программист', 'Бухгалтер', 'Экономист']
@@ -39,15 +40,14 @@ def get_opty(with_result = True):
 
 def make_csv_file(rec_cnt, with_result):
     
-    #project_path = 'D:\\_git\\andreev-ds-de-diploma\\'
-    file_path = ''
-    
+    file_path = os.path.join(os.getcwd(), '..', 'data')
+        
     header_str = 'REGION,JOB_TITLE,SALARY,LOAN_AMOUNT,PERIOD'
     if with_result == True:
         header_str = header_str + ",TARGET"
-        file_path = file_path + "train.csv"
+        file_path =  os.path.join(file_path , "train.csv")
     else:
-        file_path = file_path + "request.csv"
+        file_path = os.path.join(file_path , "request.csv")
     
     f = open(file_path, 'w+')
     f.write(header_str)
@@ -61,3 +61,5 @@ def make_csv_file(rec_cnt, with_result):
     
 make_csv_file(100000, True)
 make_csv_file(100000, False)
+
+print(os.path.join(os.getcwd(), '..', 'data'))
