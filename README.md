@@ -52,17 +52,101 @@
 
 #
 
+### Устанавливаем KAFKA: https://tecadmin.net/install-apache-kafka-ubuntu/
+* Устанавливаем JAVA:
+```
+sudo apt update
+sudo apt install default-jdk
 
+```
+* Качаем и устанавливаем KAFKA
+```
+wget http://www-us.apache.org/dist/kafka/2.4.0/kafka_2.13-2.4.0.tgz
+tar xzf kafka_2.13-2.4.0.tgz
+sudo mv kafka_2.13-2.4.0 /usr/local/kafka
 
+```
+* Настраиваем Systemd Unit Files
+Создаем файл настрек для Zookeeper:
+```
+sudo touch /etc/systemd/system/zookeeper.service
+```
+И добавляем в него следующее:
+```
+[Unit]
+Description=Apache Zookeeper server
+Documentation=http://zookeeper.apache.org
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
 
+[Service]
+Type=simple
+ExecStart=/usr/local/kafka/bin/zookeeper-server-start.sh /usr/local/kafka/config/zookeeper.properties
+ExecStop=/usr/local/kafka/bin/zookeeper-server-stop.sh
+Restart=on-abnormal
 
+[Install]
+WantedBy=multi-user.target
+```
+Создаем файл настрек для Kafka
+```
+sudo touch /etc/systemd/system/kafka.service
+```
+И добавляем в него следующее:
+```
+[Unit]
+Description=Apache Kafka Server
+Documentation=http://kafka.apache.org/documentation.html
+Requires=zookeeper.service
 
+[Service]
+Type=simple
+Environment="JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+ExecStart=/usr/local/kafka/bin/kafka-server-start.sh /usr/local/kafka/config/server.properties
+ExecStop=/usr/local/kafka/bin/kafka-server-stop.sh
 
+[Install]
+WantedBy=multi-user.target
+```
+Применяем изменения:
+```
+sudo systemctl daemon-reload
+```
+* Запускаем Kafka Server
+```
+sudo systemctl start zookeeper
+sudo systemctl start kafka
+sudo systemctl status kafka
 
+```
+* Создаем топики:
+```
+cd /usr/local/kafka
 
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic OptyInputTopic
 
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic OptyOutputTopic
 
+```
+* Разрешаем внешние соединения, для этого правим файл : /usr/local/kafka/config/server.properties
+```
+listeners=PLAINTEXT://:9092
+```
+и указат айпишник самого сервака, в моем случае:
+```
+advertised.listeners=PLAINTEXT://34.71.139.131:9092
 
+```
+* Проверяем создаение сообений:
+```
+cd /usr/local/kafka
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic OptyInputTopic
+```
+* Проверяем чтение сообщений:
+```
+cd /usr/local/kafka
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyInputTopic --from-beginning
+```
 
 
 

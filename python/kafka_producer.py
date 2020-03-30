@@ -1,11 +1,17 @@
 #spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\kafka_producer.py
 
-KAFKA_HOST = '34.66.73.57'
+import os
+import time
+from pyspark.sql import SparkSession
+
+# настройки для соединения с кафкой
+KAFKA_HOST = '34.71.139.131' 
 KAFKA_PORT = '9092'
 KAFKA_TOPIC = 'OptyInputTopic'
 
-import os
-from pyspark.sql import SparkSession
+# кол-во итераций
+ITER = 1000
+FRACT = 1 / ITER
 
 # получаем спарковую сессию
 spark = SparkSession \
@@ -34,15 +40,17 @@ data_path = os.path.join(os.getcwd(), '..', 'data', 'request.csv')
 raw_data = spark.read.csv(data_path,header=True,schema=schema) \
     .selectExpr("UUID","REGION","JOB_TITLE","SALARY", "LOAN_AMOUNT", "PERIOD")
 
-data = raw_data.sample(fraction=0.0003, withReplacement=False)
+for x in range(ITER):    
+    data = raw_data.sample(fraction=FRACT, withReplacement=False)
+    print("Data prepared!... Sending data to Kafka...")
+    
+    data.selectExpr("CAST(UUID AS STRING) as key", "REGION || ',' || JOB_TITLE || ',' || CAST(SALARY AS STRING) || ',' || CAST(LOAN_AMOUNT AS STRING) || ',' || CAST(PERIOD AS STRING)  as value") \
+      .write \
+      .format("kafka") \
+      .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
+      .option("topic", KAFKA_TOPIC) \
+      .save()
 
-print("Data prepared!... Sending to Kafka")
-
-data.selectExpr("CAST(UUID AS STRING) as key", "CAST(REGION AS STRING) as value") \
-  .write \
-  .format("kafka") \
-  .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
-  .option("topic", KAFKA_TOPIC) \
-  .save()
-
-print("Kafka Producer successfully started!")
+    print("Batch {0} was sended successfully!".format(x))
+    time.sleep(1) # Sleep for 1 second
+    
