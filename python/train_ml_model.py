@@ -44,6 +44,7 @@ score = mean(cross_val_score(clf, X, y, cv=5, scoring='f1'))
 print("\n\n\n")
 print("The average model score is {0}".format(score))
 
+# если среднеезначение точности модеди больше 94%, будем считать, что модель полходящая
 if score < 0.94:
     print("\n\n**********\n")
     print("Not enough score for saving the model!")
@@ -51,6 +52,14 @@ if score < 0.94:
 else:
     print("\n\n**********\n")
     print("Great model! Let's save it!")
+    
+    import numpy as np
+    input_str_array = np.array("Moscow,Data Analytic,112309.0,995956.0,48.0".split(',')[2:5])
+    float_array = input_str_array.astype(np.float)
+    pred_row = clf.predict([float_array])
+    print("\nPredicted Value is {0}".format(pred_row))
+    
+    
     print("\n\n**********\n")
     
 
