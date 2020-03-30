@@ -53,20 +53,20 @@
 #
 
 ### Устанавливаем KAFKA: https://tecadmin.net/install-apache-kafka-ubuntu/
-* Устанавливаем JAVA:
+#### Устанавливаем JAVA:
 ```
 sudo apt update
 sudo apt install default-jdk
 
 ```
-* Качаем и устанавливаем KAFKA
+#### Качаем и устанавливаем KAFKA
 ```
 wget http://www-us.apache.org/dist/kafka/2.4.0/kafka_2.13-2.4.0.tgz
 tar xzf kafka_2.13-2.4.0.tgz
 sudo mv kafka_2.13-2.4.0 /usr/local/kafka
 
 ```
-* Настраиваем Systemd Unit Files
+#### Настраиваем Systemd Unit Files
 Создаем файл настрек для Zookeeper:
 ```
 sudo touch /etc/systemd/system/zookeeper.service
@@ -108,7 +108,7 @@ ExecStop=/usr/local/kafka/bin/kafka-server-stop.sh
 [Install]
 WantedBy=multi-user.target
 ```
-* Разрешаем внешние соединения, для этого правим файл : /usr/local/kafka/config/server.properties
+#### Разрешаем внешние соединения, для этого правим файл : /usr/local/kafka/config/server.properties
 ```
 listeners=PLAINTEXT://:9092
 ```
@@ -121,14 +121,14 @@ advertised.listeners=PLAINTEXT://34.71.139.131:9092
 ```
 sudo systemctl daemon-reload
 ```
-* Запускаем Kafka Server
+#### Запускаем Kafka Server
 ```
 sudo systemctl start zookeeper
 sudo systemctl start kafka
 sudo systemctl status kafka
 
 ```
-* Создаем топики:
+#### Создаем топики:
 ```
 cd /usr/local/kafka
 
@@ -137,12 +137,12 @@ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 -
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic OptyOutputTopic
 
 ```
-* Проверяем создаение сообений:
+#### Проверяем создаение сообений:
 ```
 cd /usr/local/kafka
 bin/kafka-console-producer.sh --broker-list localhost:9092 --topic OptyInputTopic
 ```
-* Проверяем чтение сообщений:
+#### Проверяем чтение сообщений:
 ```
 cd /usr/local/kafka
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyInputTopic --from-beginning
