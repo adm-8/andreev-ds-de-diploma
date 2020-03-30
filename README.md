@@ -127,7 +127,10 @@ sudo docker-compose up -d --build
 
 ```
 # для запуска уже после установки
-cd ~/git/examples/cp-all-in-one
+cd ~/examples/cp-all-in-one
+
+sudo docker container stop $(sudo docker container ls -a -q -f "label=io.confluent.docker") && sudo docker system prune -a -f --volumes
+
 sudo docker-compose up -d --build
 
 ```

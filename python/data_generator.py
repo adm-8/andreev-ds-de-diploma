@@ -1,8 +1,9 @@
 from random import choice
 import os 
+import uuid
 
-regions = ['Москва','Питер','Казань']
-job_titles = ['Программист', 'Бухгалтер', 'Экономист']
+regions = ['Moscow','Kazan','Saint Petersburg']
+job_titles = ['Programmer', 'Data Analytic', 'Business Analytic']
 salary = [112309, 89450, 96231, 75614, 157495, 189242, 210561, 137245]
 loan_ammount = range(192540, 2000000, 13852)
 preiod = range(12, 120, 12)
@@ -22,7 +23,7 @@ def get_opty(with_result = True):
     req_percent = (la / per) / sal
     
     # готовим tuple для return
-    ret = choice(regions) +","+ choice(job_titles) +","+  str(sal) +","+  str(la) +","+ str(per)
+    ret = str(uuid.uuid4()) + "," + choice(regions) +","+ choice(job_titles) +","+  str(sal) +","+  str(la) +","+ str(per)
     
     # если помимо данных для запроса КЗ нужно вернуть и решение 
     if with_result == True:        
@@ -42,7 +43,7 @@ def make_csv_file(rec_cnt, with_result):
     
     file_path = os.path.join(os.getcwd(), '..', 'data')
         
-    header_str = 'REGION,JOB_TITLE,SALARY,LOAN_AMOUNT,PERIOD'
+    header_str = 'UUID,REGION,JOB_TITLE,SALARY,LOAN_AMOUNT,PERIOD'
     if with_result == True:
         header_str = header_str + ",TARGET"
         file_path =  os.path.join(file_path , "train.csv")
