@@ -108,6 +108,15 @@ ExecStop=/usr/local/kafka/bin/kafka-server-stop.sh
 [Install]
 WantedBy=multi-user.target
 ```
+* Разрешаем внешние соединения, для этого правим файл : /usr/local/kafka/config/server.properties
+```
+listeners=PLAINTEXT://:9092
+```
+и указат айпишник самого сервака, в моем случае:
+```
+advertised.listeners=PLAINTEXT://34.71.139.131:9092
+
+```
 Применяем изменения:
 ```
 sudo systemctl daemon-reload
@@ -126,15 +135,6 @@ cd /usr/local/kafka
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic OptyInputTopic
 
 bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic OptyOutputTopic
-
-```
-* Разрешаем внешние соединения, для этого правим файл : /usr/local/kafka/config/server.properties
-```
-listeners=PLAINTEXT://:9092
-```
-и указат айпишник самого сервака, в моем случае:
-```
-advertised.listeners=PLAINTEXT://34.71.139.131:9092
 
 ```
 * Проверяем создаение сообений:
