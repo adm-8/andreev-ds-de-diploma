@@ -17,10 +17,12 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import confusion_matrix
+from statistics import mean
 
-# формируем путь к файлу с данными
-data_path = os.path.join(os.getcwd(), '..', 'data', 'train.csv')
+
+# формируем пути
+root_path =  os.path.join(os.getcwd(), '..')
+data_path = os.path.join(root_path, 'data', 'train.csv')
 
 # читаем данные  
 raw_data = pd.read_csv(data_path)
@@ -33,10 +35,25 @@ y = raw_data['TARGET']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
 
 # обучим нашу модель:
+print("Training model...")
 clf = LogisticRegression(random_state=0).fit(X_train,y_train)
+print("Model trained...")
 
 # Оценим нашу модель
-print(cross_val_score(clf, X, y, cv=5, scoring='recall_macro'))
+score = mean(cross_val_score(clf, X, y, cv=5, scoring='f1'))
+print("\n\n\n")
+print("The average model score is {0}".format(score))
+
+if score < 0.94:
+    print("\n\n**********\n")
+    print("Not enough score for saving the model!")
+    print("\n\n\n\n**********\n")
+else:
+    print("\n\n**********\n")
+    print("Great model! Let's save it!")
+    print("\n\n**********\n")
+    
+
 
 #print(clf.predict(X_test))
 #print(X_train)

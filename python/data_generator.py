@@ -60,7 +60,7 @@ def make_csv_file(rec_cnt, with_result):
     print("File created")    
     #print(header_str)
     
-make_csv_file(100000, True)
+make_csv_file(1000000, True)
 make_csv_file(100000, False)
 
 print(os.path.join(os.getcwd(), '..', 'data'))
