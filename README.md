@@ -145,7 +145,10 @@ bin/kafka-console-producer.sh --broker-list localhost:9092 --topic OptyInputTopi
 #### Проверяем чтение сообщений:
 ```
 cd /usr/local/kafka
+
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyInputTopic --from-beginning
+
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyOutputTopic --from-beginning
 ```
 
 
