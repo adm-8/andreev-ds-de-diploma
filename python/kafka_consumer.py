@@ -1,17 +1,12 @@
 # spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\kafka_consumer.py
 
 
-import os
 import pickle
 import numpy as np
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, IntegerType, FloatType, StringType
 from pyspark.sql.functions import udf
 
-# формируем пути
-root_path =  os.path.join(os.getcwd(), '..')
-data_path = os.path.join(root_path, 'data', 'opty_pred.csv')
-checkpointLocation = os.path.join(root_path, 'data')
 
 # настройки для соединения с кафкой
 KAFKA_HOST = '34.71.139.131' 
@@ -66,15 +61,15 @@ with open(MODEL_FILE_NAME, "rb") as f:
       
     df.selectExpr("CAST(key AS STRING) as key", "udf_get_prediction(CAST(value AS STRING)) as value") \
     .writeStream \
-    .format("csv") \
-    .option("format", "append") \
-    .option("path", data_path) \
-    .option("checkpointLocation", checkpointLocation) \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
+    .option("topic", KAFKA_OUTPUT_TOPIC) \
     .start() \
     .awaitTermination()
 
        
     
+    #.option("checkpointLocation", checkpointLocation) \
     
    
     
