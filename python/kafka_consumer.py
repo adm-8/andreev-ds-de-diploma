@@ -1,12 +1,16 @@
 # spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\kafka_consumer.py
 
 
+import os
 import pickle
 import numpy as np
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, IntegerType, FloatType, StringType
 from pyspark.sql.functions import udf
 
+# готовим пути
+root_path =  os.path.join(os.getcwd(), '..')
+checkpointLocation = os.path.join(root_path, 'data', 'checkpointOptyInput')
 
 # настройки для соединения с кафкой
 KAFKA_HOST = '34.71.139.131' 
@@ -44,14 +48,11 @@ with open(MODEL_FILE_NAME, "rb") as f:
         
     print("Spark context started")
     
+    # регистрируем нашу ML функцию
     spark.udf.register("udf_get_prediction", udf_get_prediction)
     print("\n\n\n - - - udf_get_prediction registred succsessfully - - - \n\n\n")
 
-    
-
-    #val = get_prediction("Moscow,Data Analytic,112309.0,995956.0,48.0") # , clf
-    #print(val)
-    
+    # читаемм данные из кафки
     df = spark \
       .readStream \
       .format("kafka") \
@@ -59,24 +60,13 @@ with open(MODEL_FILE_NAME, "rb") as f:
       .option("subscribe", KAFKA_INPUT_TOPIC) \
       .load()
       
+    # применяем нашу ML функцию и пишем результат в соседнюю очередь в кафку
     df.selectExpr("CAST(key AS STRING) as key", "udf_get_prediction(CAST(value AS STRING)) as value") \
     .writeStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
     .option("topic", KAFKA_OUTPUT_TOPIC) \
+    .option("checkpointLocation", checkpointLocation) \
     .start() \
     .awaitTermination()
-
-       
-    
-    #.option("checkpointLocation", checkpointLocation) \
-    
-   
-    
-
-    
-
-    
-
-    
-    
+ 
