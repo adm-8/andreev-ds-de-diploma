@@ -61,7 +61,7 @@ with open(MODEL_FILE_NAME, "rb") as f:
       .load()
       
     # применяем нашу ML функцию и пишем результат в соседнюю очередь в кафку
-    df.selectExpr("CAST(key AS STRING) as key", "udf_get_prediction(CAST(value AS STRING)) as value") \
+    df.selectExpr("CAST(key AS STRING) as key", "CAST(udf_get_prediction(CAST(value AS STRING)) AS STRING) as value") \
     .writeStream \
     .format("kafka") \
     .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
