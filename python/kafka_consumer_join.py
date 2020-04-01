@@ -87,12 +87,15 @@ df_opty_out.join(df_opty_in, expr("t1_key = t2_key") , 'inner') \
     .start() \
     .awaitTermination()
     
+  
     
+'''
+
 #    .option("format", "append") \
 #.format("console") \
 #col("T1.key") == col("T2.key")  
     
-'''
+
 # описываем структуру value в топике OptyInputTopic
 schema = StructType([
     #StructField("UUID", StringType(), True),
@@ -113,7 +116,7 @@ df = df_opty_out.join(df_opty_in, $"mainKey" === $"joinedKey")
 # применяем нашу ML функцию и пишем результат в соседнюю очередь в кафку
 
 
-'''
+
 
 
 
@@ -122,7 +125,7 @@ df = df_opty_out.join(df_opty_in, $"mainKey" === $"joinedKey")
 #print(y_train)
 
 
-'''
+
 # spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\train_ml_model.py
 
 
