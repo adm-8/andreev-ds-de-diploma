@@ -14,7 +14,7 @@ KAFKA_OUTPUT_TOPIC = 'OptyOutputTopic'
 
 # формируем пути
 data_root_path =  os.path.join(os.getcwd(), '..', 'data')
-parquet_path = os.path.join(data_root_path, '')
+parquet_path = os.path.join(data_root_path, 'JoinedData')
 checkpointLocation = os.path.join(data_root_path, 'checkpointOptyOutput')
 
 # Определяем функцию получения значений из CSV-стринги
@@ -53,12 +53,12 @@ df_opty_in = spark \
 
 # причёсываем наши данные по КЗ 
 df_opty_in = df_opty_in.selectExpr( \
-        "CAST(key AS STRING) as key" \
+        "CAST(key AS STRING) as t1_key" \
         ,"CAST(udf_get_from_csv(CAST(value AS STRING), 0) AS STRING) as region" \
         ,"CAST(udf_get_from_csv(CAST(value AS STRING), 1) AS STRING) as job_title" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 2) AS STRING) as salary" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 3) AS STRING) as loan_amount" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 4) AS STRING) as period") \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 2) AS FLOAT) as salary" \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 3) AS FLOAT) as loan_amount" \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 4) AS FLOAT) as period") \
                       .alias("T1")
                              
 #T1_VIEW =  df_opty_in.createOrReplaceTempView("T1_VIEW")
@@ -72,18 +72,25 @@ df_opty_out = spark \
   .format("kafka") \
   .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
   .option("subscribe", KAFKA_OUTPUT_TOPIC) \
-  .load().selectExpr("CAST(key AS STRING) as key", "CAST(value AS STRING) as target") \
+  .load().selectExpr("CAST(key AS STRING) as t2_key", "CAST(value AS STRING) as target") \
   .alias("T2")
   
 #T2_VIEW =  df_opty_out.createOrReplaceTempView("T2_VIEW") spark.sql("SELECT T1.key, T2.target FROM T1_VIEW as T1 INNER JOIN T2_VIEW AS T2 on T1.key = T2.key") \
-  
-result_df = df_opty_out.join(df_opty_in, col("T1.key") == col("T2.key"), 'inner') \
-    .selectExpr("region", "target") \
+
+#result_df =   
+df_opty_out.join(df_opty_in, expr("t1_key = t2_key") , 'inner') \
+    .selectExpr("t1_key as uuid", "region", "job_title", "salary", "loan_amount", "period", "target") \
     .writeStream \
-    .format("console") \
+    .format("csv") \
+    .option("path", parquet_path) \
+    .option("checkpointLocation", checkpointLocation) \
     .start() \
     .awaitTermination()
-  
+    
+    
+#    .option("format", "append") \
+#.format("console") \
+#col("T1.key") == col("T2.key")  
     
 '''
 # описываем структуру value в топике OptyInputTopic
