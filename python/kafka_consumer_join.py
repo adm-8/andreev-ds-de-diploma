@@ -1,8 +1,9 @@
 import os
 from pyspark.sql import SparkSession
-import pyspark.sql.functions
+from pyspark.sql.functions import *
 from pyspark.sql.types import StructType, StructField, IntegerType, FloatType, StringType
 from pyspark.sql.functions import udf
+from pyspark.sql.functions import expr
 
 # настройки для соединения с кафкой
 KAFKA_HOST = '34.71.139.131' 
@@ -51,14 +52,16 @@ df_opty_in = spark \
   .load()
 
 # причёсываем наши данные по КЗ 
-df_opty_in.selectExpr( \
-        "CAST(key AS STRING) as t1_key" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 0) AS STRING) as t1_region" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 1) AS STRING) as t1_job_title" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 2) AS STRING) as t1_salary" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 3) AS STRING) as t1_loan_amount" \
-        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 4) AS STRING) as t1_period") 
-  
+df_opty_in = df_opty_in.selectExpr( \
+        "CAST(key AS STRING) as key" \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 0) AS STRING) as region" \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 1) AS STRING) as job_title" \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 2) AS STRING) as salary" \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 3) AS STRING) as loan_amount" \
+        ,"CAST(udf_get_from_csv(CAST(value AS STRING), 4) AS STRING) as period") \
+                      .alias("T1")
+                             
+#T1_VIEW =  df_opty_in.createOrReplaceTempView("T1_VIEW")
     
 # ----------------------------------------    
 # читаемм данные с предсказаниями из кафки
@@ -69,7 +72,13 @@ df_opty_out = spark \
   .format("kafka") \
   .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
   .option("subscribe", KAFKA_OUTPUT_TOPIC) \
-  .load().selectExpr("CAST(key AS STRING) as t2_key", "CAST(value AS STRING) as t2_value") \
+  .load().selectExpr("CAST(key AS STRING) as key", "CAST(value AS STRING) as target") \
+  .alias("T2")
+  
+#T2_VIEW =  df_opty_out.createOrReplaceTempView("T2_VIEW") spark.sql("SELECT T1.key, T2.target FROM T1_VIEW as T1 INNER JOIN T2_VIEW AS T2 on T1.key = T2.key") \
+  
+result_df = df_opty_out.join(df_opty_in, col("T1.key") == col("T2.key"), 'inner') \
+    .selectExpr("region", "target") \
     .writeStream \
     .format("console") \
     .start() \
