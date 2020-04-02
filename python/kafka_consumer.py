@@ -1,4 +1,12 @@
-# spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\kafka_consumer.py
+'''
+    01.04.2020 Andreev Dima
+    Telegram: @dslads
+
+    Читаем данные из топика кафки OptyInputTopic
+    Применяем ML модель 
+    Отправляем результат предсказаний в топик кафки OptyOutputTopic
+    
+'''
 
 
 import os
@@ -70,3 +78,4 @@ with open(MODEL_FILE_NAME, "rb") as f:
     .start() \
     .awaitTermination()
  
+# spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\kafka_consumer.py

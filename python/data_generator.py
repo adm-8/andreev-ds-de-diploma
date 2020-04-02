@@ -1,3 +1,12 @@
+'''
+    29.03.2020 Andreev Dima
+    Telegram: @dslads
+    
+    Генерируем два CSV файла с данными по Кредитным заявкам:
+    - train.csv - на нем обучается ML модель в скрипте train_ml_model.py
+    - request.csv - этот файл используется для отправки данных в топик кафки в скрипте kafka_producer
+'''
+
 from random import choice
 import os 
 import uuid
@@ -61,6 +70,6 @@ def make_csv_file(rec_cnt, with_result):
     #print(header_str)
     
 make_csv_file(1000000, True)
-make_csv_file(100000, False)
+make_csv_file(200000, False)
 
 print(os.path.join(os.getcwd(), '..', 'data'))

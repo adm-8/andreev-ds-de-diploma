@@ -1,5 +1,10 @@
-#spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\kafka_producer.py
-
+'''
+    31.03.2020 Andreev Dima
+    Telegram: @dslads
+    
+    Читаем данные из файла request.csv по кускам, склеиваем все поля в одну строку и отправляем данные в топик кафки OptyInputTopic 
+    
+'''
 import os
 import time
 from pyspark.sql import SparkSession
@@ -53,4 +58,5 @@ for x in range(ITER):
 
     print("Batch {0} was sended successfully!".format(x))
     time.sleep(1) # Sleep for 1 second
-    
+
+#spark-submit  --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.4 D:\_git\andreev-ds-de-diploma\python\kafka_producer.py    
