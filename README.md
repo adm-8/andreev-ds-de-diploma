@@ -45,10 +45,15 @@
 ## Основная часть поставленой задачи выполнена! 
 
 **Отправка кредитной заявки в Kafka (Opportunity Input Topic):**
+
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/kafka_producer___result.JPG?raw=true)
+
 **Чтение данных по кредитным заявкам из Kafka, применение модели из п.1 для получения предсказаний, Отправка результатов в Kafka (Opportunity Output Topic):**
+
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/kafka_consumer___result.JPG?raw=true)
+
 **Джоин двух стримов и складирование результатов в Parquet файл в файловую систему:**
+
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/kafka_consumer_join___result.JPG?raw=true)
 
 # Запуск процесса (делать только посе настроек ниже):
