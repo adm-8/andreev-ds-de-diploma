@@ -56,6 +56,10 @@
 
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/kafka_consumer_join___result.JPG?raw=true)
 
+**Чтение данных из Parquet-файла в Vertica:**
+
+![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/vertica___result.JPG?raw=true)
+
 # Запуск основного процесса (делать только посе настроек ниже):
 Заходим в папку со скриптами:
 ```
