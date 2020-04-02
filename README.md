@@ -44,7 +44,7 @@
 
 ```
 cd ~
-git clone https://github.com/adm-8/andreev-ds-de-diploma.git
+sudo git clone https://github.com/adm-8/andreev-ds-de-diploma.git
 
 ```
 
@@ -172,7 +172,7 @@ rm spark-2.4.5-bin-hadoop2.7.tgz
 ```
 Далее необходимо добавить переменные среды в **/etc/environment** :
 ```
-SPARK_HOME=~/spark
+SPARK_HOME=~/spark/spark-2.4.5-bin-hadoop2.7
 PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 ```
 Применим изменения:
