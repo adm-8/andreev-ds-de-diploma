@@ -44,8 +44,6 @@
 
 # Установка \ настройка необходимого ПО на Ubuntu
 
-#
-
 ### Устанавливаем KAFKA: https://tecadmin.net/install-apache-kafka-ubuntu/
 #### Устанавливаем JAVA:
 ```
@@ -53,6 +51,12 @@ sudo apt update
 sudo apt install default-jdk
 
 ```
+После установки JAVA необходимо создать переменные окружения, для этого в конец /etc/environment добавим:
+```
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+``` 
+
 #### Качаем и устанавливаем KAFKA
 ```
 wget http://www-us.apache.org/dist/kafka/2.4.0/kafka_2.13-2.4.0.tgz
