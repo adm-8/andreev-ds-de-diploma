@@ -51,7 +51,7 @@ sudo apt update
 sudo apt install default-jdk
 
 ```
-После установки JAVA необходимо создать переменные окружения, для этого в конец /etc/environment добавим:
+После установки JAVA необходимо создать переменные окружения, для этого в конец */etc/environment* добавим:
 ```
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
