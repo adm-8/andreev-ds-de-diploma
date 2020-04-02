@@ -51,7 +51,19 @@ sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diplo
 ```
 Запскаем процесс обучения и сохранения модели:
 ```
-sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diploma/python/train_ml_model.py
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diploma/python/train_ml_model.py --conf spark.yarn.appMasterEnv.PYSPARK_DRIVER_PYTHON=python3
+```
+Запускаем процесс загрузки данных по КЗ в очередь кафки:
+```
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_producer.py
+```
+Запускаем процесс получения данных по КЗ из кафки и применения ML модели к ним:
+```
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer.py
+```
+Запускаем процесс объединения результатов прогнозирования и самой заявки:
+```
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer_join.py
 ```
 
 # Клонирование проекта и настройка окружения
@@ -63,6 +75,26 @@ sudo git clone https://github.com/adm-8/andreev-ds-de-diploma.git
 cd ~/andreev-ds-de-diploma/
 mkdir data
 
+```
+**Обновим питон до версии 3.7**:
+https://phoenixnap.com/kb/how-to-install-python-3-ubuntu
+
+Сделаем третий питон дефолтным:
+```
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 2
+
+sudo update-alternatives  --set python /usr/bin/python3.7
+```
+
+Установим необходимые пакеты:
+```
+sudo apt-get install python3-pip
+sudo pip3 install --upgrade pip
+
+sudo pip3 install numpy
+sudo pip3 install pandas
+sudo pip3 install sklearn
 ```
 
 # Установка \ настройка необходимого ПО на Ubuntu
@@ -198,65 +230,24 @@ PATH=$PATH:/var/spark/spark-2.4.5-bin-hadoop2.7/sbin:/var/spark/spark-2.4.5-bin-
 ```
 source ~/.bashrc
 ```
+Выставим треью версию питона по умолчанию, скопировав шаблон:
+```
+/var/spark/spark-2.4.5-bin-hadoop2.7/conf
+cp spark-env.sh.template spark-env.sh
+
+```
+И добавим в него:
+```
+export PYSPARK_PYTHON=python3
+export PYSPARK_DRIVER_PYTHON=python3
+```
 Запустим мастера:
 ```
 sudo /var/spark/spark-2.4.5-bin-hadoop2.7/sbin/start-master.sh 
 ```
-И сгенерим данные:
-```
-sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diploma/python/data_generator.py
-
-```
 
 
-
-
-
-
-* Устанавливаем JAVA: https://tecadmin.net/install-oracle-java-8-ubuntu-via-ppa/
 
 * Устанавливаем Docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
 * Устанавливаем Docker Compose: https://docs.docker.com/compose/install/
-
-* Качаем и запускаем Confluent Platform  https://docs.confluent.io/current/quickstart/cos-docker-quickstart.html#
-```
-mkdir ~/git
-
-cd git
-
-git clone https://github.com/confluentinc/examples
-cd examples
-git checkout 5.4.1-post
-
-cd cp-all-in-one-community/
-
-sudo docker-compose up -d --build
-```
-
-
-```
-# для запуска уже после установки
-cd ~/examples/cp-all-in-one
-
-sudo docker container stop $(sudo docker container ls -a -q -f "label=io.confluent.docker") && sudo docker system prune -a -f --volumes
-
-sudo docker-compose up -d --build
-
-```
-
-
-* Заходим на http://104.198.248.19:9021 и Создаем топики 'opty-input-topic' и 'opty-predicted-topic':
-
-* Создаем Connector для opty-input-topic :
-```
-{
-  "name": "datagen-opty-input",
-  "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
-  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-  "kafka.topic": "opty-input-topic",
-  "max.interval": "100",
-  "iterations": "1000000000",
-  "quickstart": "opty-input-connector"
-}
-```
