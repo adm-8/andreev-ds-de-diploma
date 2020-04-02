@@ -173,7 +173,9 @@ rm spark-2.4.5-bin-hadoop2.7.tgz
 Далее необходимо добавить переменные среды в **/etc/environment** :
 ```
 SPARK_HOME=/var/spark/spark-2.4.5-bin-hadoop2.7
-PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+PATH=$PATH:/var/spark/spark-2.4.5-bin-hadoop2.7/sbin:/var/spark/spark-2.4.5-bin-hadoop2.7/bin
+
 ```
 Применим изменения:
 ```
