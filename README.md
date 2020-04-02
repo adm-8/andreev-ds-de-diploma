@@ -100,6 +100,7 @@ sudo docker run -p 5433:5433 -d -v ~/andreev-ds-de-diploma/data/JoinedData:/tmp/
 cmd /K chcp 65001
 vsql -h34.71.139.131 -Udbadmin
 ```
+Выполняем скрипт: https://github.com/adm-8/andreev-ds-de-diploma/blob/master/sql/CREATE_OPTY_TABLE.sql
 
 # Клонирование проекта и настройка окружения
 
