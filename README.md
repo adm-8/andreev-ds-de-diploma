@@ -56,7 +56,7 @@
 
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/kafka_consumer_join___result.JPG?raw=true)
 
-# Запуск процесса (делать только посе настроек ниже):
+# Запуск основного процесса (делать только посе настроек ниже):
 Заходим в папку со скриптами:
 ```
 cd ~/andreev-ds-de-diploma/python/
@@ -80,6 +80,21 @@ sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache
 Запускаем процесс объединения результатов прогнозирования и самой заявки:
 ```
 sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer_join.py
+```
+
+## Прикручиваем Vertica:
+Идём в папку с проектом:
+```
+cd ~/andreev-ds-de-diploma/
+```
+Запускаем докер, подпихнув папку с данными:
+```
+sudo docker run -p 5433:5433 -d -v ~/andreev-ds-de-diploma/data/JoinedData:/tmp/data dataplatform/docker-vertica
+```
+После того как запустился докер с вертикой, на виндовой (ну или любой другой где есть клиент vsql) машине соединяемся с базой. Соединение без пароля, указываем только имя пользователя dbadmin и IP адрес с вертикой, в моем случае получилось:
+```
+cmd /K chcp 65001
+vsql -h34.71.139.131 -Udbadmin
 ```
 
 # Клонирование проекта и настройка окружения
@@ -258,10 +273,15 @@ export PYSPARK_DRIVER_PYTHON=python3
 sudo /var/spark/spark-2.4.5-bin-hadoop2.7/sbin/start-master.sh 
 ```
 
-
+# Установка Vertica
 
 ## Устанавливаем Docker: 
 https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
 ## Устанавливаем Docker Compose: 
 https://docs.docker.com/compose/install/
+
+## Качаем докер с Vertica:
+```
+sudo docker pull dataplatform/docker-vertica
+```
