@@ -101,7 +101,7 @@ df_opty_out.join(df_opty_in, expr("t1_key = t2_key") , 'inner') \
     
 '''
 
-#    .option("format", "append") \
+#.option("format", "append") \
 #.format("console") \
 #col("T1.key") == col("T2.key")  
     
