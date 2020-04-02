@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
 '''
     01.04.2020 Andreev Dima
     Telegram: @dslads

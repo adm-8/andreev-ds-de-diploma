@@ -40,11 +40,28 @@
 * Tableau\PowerBI
 * Hadoop
 
-# Клонирование проекта
+# Запуск процесса (делать только посе настроек ниже):
+Заходим в папку со скриптами:
+```
+cd ~/andreev-ds-de-diploma/python/
+```
+Запускаем генерацию файлов с данными:
+```
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diploma/python/data_generator.py
+```
+Запскаем процесс обучения и сохранения модели:
+```
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diploma/python/train_ml_model.py
+```
+
+# Клонирование проекта и настройка окружения
 
 ```
 cd ~
 sudo git clone https://github.com/adm-8/andreev-ds-de-diploma.git
+
+cd ~/andreev-ds-de-diploma/
+mkdir data
 
 ```
 
