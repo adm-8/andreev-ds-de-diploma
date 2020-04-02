@@ -42,13 +42,7 @@
 
 #
 
-#
-
-#
-
-#
-
-#
+# Установка \ настройка необходимого ПО на Ubuntu
 
 #
 
@@ -151,20 +145,10 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyInpu
 bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyOutputTopic --from-beginning
 ```
 
-
-
-
-
-
-
-
-
-
-## Решение
-* Устанавливаем JAVA: https://tecadmin.net/install-oracle-java-8-ubuntu-via-ppa/
-
-* Устанавливаем Spark
+## Устанавливаем Spark
 ```
+cd ~
+
 mkdir spark
 
 cd spark
@@ -192,6 +176,14 @@ sudo ~/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/spark/test.py
 
 
 ```
+
+
+
+
+
+
+* Устанавливаем JAVA: https://tecadmin.net/install-oracle-java-8-ubuntu-via-ppa/
+
 * Устанавливаем Docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
 * Устанавливаем Docker Compose: https://docs.docker.com/compose/install/

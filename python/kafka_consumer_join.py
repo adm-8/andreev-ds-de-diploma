@@ -63,6 +63,7 @@ df_opty_in = spark \
 # причёсываем наши данные по КЗ 
 df_opty_in = df_opty_in.selectExpr( \
         "CAST(key AS STRING) as t1_key" \
+        ,"TIMESTAMP as created"
         ,"CAST(udf_get_from_csv(CAST(value AS STRING), 0) AS STRING) as region" \
         ,"CAST(udf_get_from_csv(CAST(value AS STRING), 1) AS STRING) as job_title" \
         ,"CAST(udf_get_from_csv(CAST(value AS STRING), 2) AS FLOAT) as salary" \
@@ -89,10 +90,11 @@ df_opty_out = spark \
 # джоиним фреймы и пишем в место назначения
 # ----------------------------------------
 df_opty_out.join(df_opty_in, expr("t1_key = t2_key") , 'inner') \
-    .selectExpr("t1_key as uuid", "region", "job_title", "salary", "loan_amount", "period", "target") \
+    .selectExpr("t1_key as uuid", "created", "region", "job_title", "salary", "loan_amount", "period", "target") \
     .writeStream \
-    .format("csv") \
+    .format("parquet") \
     .option("path", parquet_path) \
+    .outputMode("append") \
     .option("checkpointLocation", checkpointLocation) \
     .start() \
     .awaitTermination()
