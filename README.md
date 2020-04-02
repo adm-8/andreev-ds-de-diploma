@@ -242,10 +242,6 @@ SPARK_HOME=/var/spark/spark-2.4.5-bin-hadoop2.7
 PATH=$PATH:/var/spark/spark-2.4.5-bin-hadoop2.7/sbin:/var/spark/spark-2.4.5-bin-hadoop2.7/bin
 
 ```
-Применим изменения:
-```
-source ~/.bashrc
-```
 Выставим треью версию питона по умолчанию, скопировав шаблон:
 ```
 /var/spark/spark-2.4.5-bin-hadoop2.7/conf
@@ -264,6 +260,8 @@ sudo /var/spark/spark-2.4.5-bin-hadoop2.7/sbin/start-master.sh
 
 
 
-* Устанавливаем Docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+## Устанавливаем Docker: 
+https://docs.docker.com/install/linux/docker-ce/ubuntu/
 
-* Устанавливаем Docker Compose: https://docs.docker.com/compose/install/
+## Устанавливаем Docker Compose: 
+https://docs.docker.com/compose/install/
