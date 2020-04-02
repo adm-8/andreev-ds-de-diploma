@@ -40,7 +40,13 @@
 * Tableau\PowerBI
 * Hadoop
 
-#
+# Клонирование проекта
+
+```
+cd ~
+git clone https://github.com/adm-8/andreev-ds-de-diploma.git
+
+```
 
 # Установка \ настройка необходимого ПО на Ubuntu
 
@@ -51,7 +57,7 @@ sudo apt update
 sudo apt install default-jdk
 
 ```
-После установки JAVA необходимо создать переменные окружения, для этого в конец */etc/environment* добавим:
+После установки JAVA необходимо создать переменные окружения, для этого в конец **/etc/environment** добавим:
 ```
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
@@ -163,21 +169,23 @@ tar -xzvf spark-2.4.5-bin-hadoop2.7.tgz
 
 rm spark-2.4.5-bin-hadoop2.7.tgz
 
-cd ~/
-
-vim ~/.bashrc
-
-cd ~/spark
-
-export SPARK_HOME=~/spark
-export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
-
+```
+Далее необходимо добавить переменные среды в **/etc/environment** :
+```
+SPARK_HOME=~/spark
+PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+```
+Применим изменения:
+```
 source ~/.bashrc
-
+```
+Запустим мастера:
+```
 sudo ~/spark/spark-2.4.5-bin-hadoop2.7/sbin/start-master.sh 
+```
 
+```
 sudo ~/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/spark/test.py
-
 
 ```
 
