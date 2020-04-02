@@ -157,7 +157,7 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyOutp
 
 ## Устанавливаем Spark
 ```
-cd ~
+cd /var
 
 mkdir spark
 
@@ -172,7 +172,7 @@ rm spark-2.4.5-bin-hadoop2.7.tgz
 ```
 Далее необходимо добавить переменные среды в **/etc/environment** :
 ```
-SPARK_HOME=~/spark/spark-2.4.5-bin-hadoop2.7
+SPARK_HOME=/var/spark/spark-2.4.5-bin-hadoop2.7
 PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
 ```
 Применим изменения:
@@ -181,11 +181,11 @@ source ~/.bashrc
 ```
 Запустим мастера:
 ```
-sudo ~/spark/spark-2.4.5-bin-hadoop2.7/sbin/start-master.sh 
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/sbin/start-master.sh 
 ```
-
+И сгенерим данные:
 ```
-sudo ~/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/spark/test.py
+sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diploma/python/data_generator.py
 
 ```
 
