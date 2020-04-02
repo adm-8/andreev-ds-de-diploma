@@ -1,11 +1,13 @@
 '''
-    02.04.2020 Andreev Dima
+    01.04.2020 Andreev Dima
     Telegram: @dslads
     
     Вычитываем данные с результатами предсказаний из топика кафки OptyOutputTopic
-    
+    Вычитываем изначальные данные по КЗ из топика кафки OptyInputTopic
+    Джоиним два стрима и пишем результат в паркетный файл для дальнейшей с ним работы в Vertica \ Hive
     
 '''
+
 import os
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *

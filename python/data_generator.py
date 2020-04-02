@@ -5,6 +5,7 @@
     Генерируем два CSV файла с данными по Кредитным заявкам:
     - train.csv - на нем обучается ML модель в скрипте train_ml_model.py
     - request.csv - этот файл используется для отправки данных в топик кафки в скрипте kafka_producer
+    
 '''
 
 from random import choice

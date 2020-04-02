@@ -5,6 +5,7 @@
     Читаем данные из файла request.csv по кускам, склеиваем все поля в одну строку и отправляем данные в топик кафки OptyInputTopic 
     
 '''
+
 import os
 import time
 from pyspark.sql import SparkSession

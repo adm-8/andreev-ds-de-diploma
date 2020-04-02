@@ -1,5 +1,5 @@
 '''
-    01.04.2020 Andreev Dima
+    31.03.2020 Andreev Dima
     Telegram: @dslads
 
     Читаем данные из топика кафки OptyInputTopic
@@ -7,7 +7,6 @@
     Отправляем результат предсказаний в топик кафки OptyOutputTopic
     
 '''
-
 
 import os
 import pickle
