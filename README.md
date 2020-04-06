@@ -42,7 +42,7 @@
 
 # Результат
 
-## На текущий момент выполнена основная поставлення задача и первый вызов: 
+![main_chema___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/AndreevDS-DE-Diploma_result.png?raw=true)
 
 **Отправка кредитной заявки в Kafka (Opportunity Input Topic):**
 
@@ -58,15 +58,15 @@
 
 **Чтение данных из таблицы через VSQL, в которую уже загнали данные из внешней таблицы на основе Parquet-файла:**
 
-![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/vertica___result.JPG?raw=true)
+![vertica___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/vertica___result.JPG?raw=true)
 
 **Чтение данных из таблицы-аггрегата, топ10 год+месяц по положительным выдачам:**
 
-![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/OPTY_Y_M_AGG_top10___result.JPG?raw=true)
+![agg1___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/OPTY_Y_M_AGG_top10___result.JPG?raw=true)
 
 **Чтение данных из таблицы-аггрегата, общее кол-во заявок по региону и должности :**
 
-![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/OPTY_R_J_AGG___result.JPG?raw=true)
+![agg2___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/OPTY_R_J_AGG___result.JPG?raw=true)
 
 # Запуск основного процесса (делать только посе настроек ниже):
 Заходим в папку со скриптами:
