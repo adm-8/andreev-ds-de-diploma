@@ -56,7 +56,7 @@
 
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/kafka_consumer_join___result.JPG?raw=true)
 
-**Чтение данных из Parquet-файла в Vertica:**
+**Чтение данных из таблицы в VerticaЮ в которую уже загнали данные из внешней таблицы на основе Parquet-файла :**
 
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/vertica___result.JPG?raw=true)
 
