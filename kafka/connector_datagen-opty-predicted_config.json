@@ -1,9 +1,0 @@
-{
-  "name": "datagen-opty-predicted",
-  "connector.class": "io.confluent.kafka.connect.datagen.DatagenConnector",
-  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
-  "kafka.topic": "opty-predicted-topic",
-  "max.interval": "100",
-  "iterations": "1000000000",
-  "quickstart": "opty-predicted-connector"
-}
