@@ -86,7 +86,7 @@ sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache
 sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer_join.py
 ```
 
-## Прикручиваем Vertica:
+## Прикручиваем Vertica (Вызов №1):
 Идём в папку с проектом:
 ```
 cd ~/andreev-ds-de-diploma/
@@ -95,12 +95,47 @@ cd ~/andreev-ds-de-diploma/
 ```
 sudo docker run -p 5433:5433 -d -v ~/andreev-ds-de-diploma/data/JoinedData:/tmp/data dataplatform/docker-vertica
 ```
-После того как запустился докер с вертикой, на виндовой (ну или любой другой где есть клиент vsql) машине соединяемся с базой. Соединение без пароля, указываем только имя пользователя dbadmin и IP адрес с вертикой, в моем случае получилось:
+#### После того как запустился докер с вертикой, необходимо выполнить скрипты:
+```
+cd ~/andreev-ds-de-diploma/sql/
+```
+Создание внешней таблицы, смотрящей на PARQUET файл, и внутренних таблиц:
+```
+~/vsql/opt/vertica/bin/vsql -h34.71.139.131 -Udbadmin -f "CREATE_TABLES.sql"
+```
+Перенос данных из внешней таблицы во внутреннюю:
+```
+~/vsql/opt/vertica/bin/vsql -h34.71.139.131 -Udbadmin -f "SP_MERGE_OPTY_FROM_EXT_TO_INT.sql"
+```
+Пересчёт аггрегатов:
+```
+~/vsql/opt/vertica/bin/vsql -h34.71.139.131 -Udbadmin -f "SP_CALC_AGG.sql"
+```
+Далее можем соединиться с базой и посмотреть, что у нас в итоге получилось. Соединение без пароля, указываем только имя пользователя dbadmin и IP адрес с вертикой, в моем случае получилось:
+```
+~/vsql/opt/vertica/bin/vsql -h34.71.139.131 -Udbadmin
+```
+Варинт для соединения с винды:
 ```
 cmd /K chcp 65001
 vsql -h34.71.139.131 -Udbadmin
 ```
-Выполняем скрипт: https://github.com/adm-8/andreev-ds-de-diploma/blob/master/sql/CREATE_OPTY_TABLE.sql
+#### посмотрим что в аггрегатах:
+Получение топ10 год+месяц по кол-ву положительных одобрений:
+```
+SELECT * FROM DED.OPTY_Y_M_AGG
+WHERE RES = 'POS'
+ORDER BY CNT DESC
+LIMIT 10;
+```
+Получение кол-ва результатов, сгруппированных по региону и занимаемой должности:
+```
+SELECT * FROM DED.OPTY_R_J_AGG;
+```
+
+#
+
+#
 
 # Клонирование проекта и настройка окружения
 
@@ -289,4 +324,11 @@ https://docs.docker.com/compose/install/
 ## Качаем докер с Vertica:
 ```
 sudo docker pull dataplatform/docker-vertica
+```
+## Устанавливаем VSQL:
+```
+mkdir ~/vsql
+cd ~/vsql
+sudo wget https://www.vertica.com/client_drivers/9.3.x/9.3.1-0/vertica-client-9.3.1-0.x86_64.tar.gz
+tar -xzvf vertica-client-9.3.1-0.x86_64.tar.gz
 ```

@@ -1,7 +1,7 @@
 /*
 	Создаем внешнюю и внутреннюю таблицы 
 	
-	vsql -h34.71.139.131 -Udbadmin -f "D:\_git\andreev-ds-de-diploma\sql\CREATE_OPTY_TABLE.sql"
+	vsql -h34.71.139.131 -Udbadmin -f "D:\_git\andreev-ds-de-diploma\sql\CREATE_TABLES.sql"
 */
 
 
