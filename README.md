@@ -56,9 +56,17 @@
 
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/kafka_consumer_join___result.JPG?raw=true)
 
-**Чтение данных из таблицы в VerticaЮ в которую уже загнали данные из внешней таблицы на основе Parquet-файла :**
+**Чтение данных из таблицы через VSQL, в которую уже загнали данные из внешней таблицы на основе Parquet-файла:**
 
 ![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/vertica___result.JPG?raw=true)
+
+**Чтение данных из таблицы-аггрегата, топ10 год+месяц по положительным выдачам:**
+
+![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/OPTY_Y_M_AGG_top10___result.JPG?raw=true)
+
+**Чтение данных из таблицы-аггрегата, общее кол-во заявок по региону и должности :**
+
+![kafka_producer___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/OPTY_R_J_AGG___result.JPG?raw=true)
 
 # Запуск основного процесса (делать только посе настроек ниже):
 Заходим в папку со скриптами:
