@@ -69,6 +69,15 @@
 ![agg2___result](https://github.com/adm-8/andreev-ds-de-diploma/blob/master/images/OPTY_R_J_AGG___result.JPG?raw=true)
 
 # Запуск основного процесса (делать только посе настроек ниже):
+
+Стартуем необходиые службы:
+```
+sudo docker run -p 5433:5433 -d -v ~/andreev-ds-de-diploma/data/JoinedData:/tmp/data dataplatform/docker-vertica
+sudo systemctl start zookeeper
+sudo systemctl start kafka
+sudo systemctl status kafka
+
+```
 Заходим в папку со скриптами:
 ```
 cd ~/andreev-ds-de-diploma/python/
@@ -85,9 +94,17 @@ sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit ~/andreev-ds-de-diplo
 ```
 sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_producer.py
 ```
-Запускаем процесс получения данных по КЗ из кафки и применения ML модели к ним:
+Проверяем очередь OptyInputTopic (в новом окне SSH):
 ```
-sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer.py
+cd /usr/local/kafka && bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyInputTopic
+```
+Запускаем процесс получения данных по КЗ из кафки и применения ML модели к ним (в новом окне SSH):
+```
+cd ~/andreev-ds-de-diploma/python/ && sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer.py
+```
+Проверяем очередь OptyOutputTopic (в новом окне SSH):
+```
+cd /usr/local/kafka && bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic OptyOutputTopic
 ```
 Запускаем процесс объединения результатов прогнозирования и самой заявки:
 ```
@@ -178,7 +195,7 @@ sudo pip3 install sklearn
 
 # Установка \ настройка необходимого ПО на Ubuntu
 
-### Устанавливаем KAFKA: https://tecadmin.net/install-apache-kafka-ubuntu/
+## Устанавливаем KAFKA: https://tecadmin.net/install-apache-kafka-ubuntu/
 #### Устанавливаем JAVA:
 ```
 sudo apt update
@@ -340,3 +357,29 @@ cd ~/vsql
 sudo wget https://www.vertica.com/client_drivers/9.3.x/9.3.1-0/vertica-client-9.3.1-0.x86_64.tar.gz
 tar -xzvf vertica-client-9.3.1-0.x86_64.tar.gz
 ```
+
+#
+
+#
+
+#
+
+#
+
+## Установка Airflow
+
+Документация : https://airflow.apache.org/docs/stable/installation.html#initiating-airflow-database
+
+#### Устанавливаем Airflow:
+```
+sudo python2.7 -m pip install apache-airflow
+```
+
+*Поскольку мы будем запускать Bash команды, а BashOperator поставляется из коробки, то никаких дополнительных пакетов для Airflow устанавливать не будем. Но не стоит забывать, что их есть и очень много. Подробнее об этом можно почитать в документации по ссылке выше.*
+
+#### Настройка базы для Airflow:
+Поскольку у нас этот проект больше похож на MVP, не будем заморачиваться с разворачиваением MySQL или PostgreSQL и сразу натравим Airflow на дефолтную SQLite:
+```
+airflow initdb
+```
+
