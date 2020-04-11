@@ -76,7 +76,7 @@ with open(MODEL_FILE_NAME, "rb") as f:
     .format("kafka") \
     .option("kafka.bootstrap.servers", "{0}:{1}".format(KAFKA_HOST, KAFKA_PORT)) \
     .option("topic", KAFKA_OUTPUT_TOPIC) \
-    .option("failOnDataLoss", 'false') \
+    .option("failOnDataLoss", false) \
     .option("checkpointLocation", checkpointLocation) \
     .start() \
     .awaitTermination()
