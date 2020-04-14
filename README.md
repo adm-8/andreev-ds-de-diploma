@@ -108,8 +108,13 @@ cd /usr/local/kafka && bin/kafka-console-consumer.sh --bootstrap-server localhos
 ```
 Запускаем процесс объединения результатов прогнозирования и самой заявки:
 ```
-sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer_join.py
+cd ~/andreev-ds-de-diploma/python/ && sudo /var/spark/spark-2.4.5-bin-hadoop2.7/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.5 ~/andreev-ds-de-diploma/python/kafka_consumer_join.py
 ```
+Проверяем, что кол-во файлов увеличивается, следовательно результаты пишутся в Parquet-файлы:
+```
+cd ~/andreev-ds-de-diploma/data/JoinedData && ls | wc -l
+```
+
 
 ## Прикручиваем Vertica (Вызов №1):
 Идём в папку с проектом:
